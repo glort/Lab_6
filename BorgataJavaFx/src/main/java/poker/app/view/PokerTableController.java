@@ -92,7 +92,7 @@ public class PokerTableController {
 	private ImageView imgTransCardP4 = new ImageView();
 	private ImageView imgTransCardCommon = new ImageView();
 	
-	private static Rule rle = new Rule(eGame.FiveStud);
+	private static Rule rle;
 
 	public static void setRle(Rule rle) {
 		PokerTableController.rle = rle;

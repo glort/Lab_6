@@ -2,7 +2,7 @@ package domain;
 
 public class GameRuleDomainModel {
 
-	protected int RULEID;
+	protected Integer RULEID;
 	protected String RULENAME;
 	protected int MAXNUMBEROFPLAYERS;
 	protected int PLAYERNUMBEROFCARDS;
@@ -18,7 +18,7 @@ public class GameRuleDomainModel {
 	{
 		
 	}
-	public int getRULEID() {
+	public Integer getRULEID() {
 		return RULEID;
 	}
 	public void setRULEID(int rULEID) {

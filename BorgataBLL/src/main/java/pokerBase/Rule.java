@@ -1,14 +1,25 @@
 package pokerBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import domain.CardDomainModel;
+import domain.GameRuleCardsDomainModel;
+import domain.GameRuleDomainModel;
 import enums.eGame;
 import enums.eRank;
 import enums.eSuit;
+import logic.GameRuleBLL;
+import logic.GameRuleCardsBLL;
 
 public class Rule {
+	
+	
 
+	
+	private int RuleId;
+	private String RuleName;
 	private int MaxNumberOfPlayers;
 	private int PlayerNumberOfCards;
 	private int NumberOfJokers;
@@ -17,11 +28,34 @@ public class Rule {
 	private int CommunityCardsMin;
 	private int CommunityCardsMax;
 	private int PossibleHandCombinations;
-	private int[] iCardsToDraw;
+	private ArrayList<Integer> iCardsToDraw = new ArrayList<Integer>();
 	private ArrayList<CardDomainModel> RuleCards = new ArrayList<CardDomainModel>();
 	private eGame Game;
+	
+	public Rule(String txt){
+		
+		HashMap<String, GameRuleDomainModel> Rules = GameRuleBLL.getRuleHashSet();
+		GameRuleDomainModel grdm = Rules.get(txt);
+		
+		this.RuleId = grdm.getRULEID();
+		this.RuleName = grdm.getRULENAME();
+		this.MaxNumberOfPlayers = grdm.getMAXNUMBEROFPLAYERS();
+		this.PlayerNumberOfCards = grdm.getPLAYERNUMBEROFCARDS();
+		this.NumberOfJokers = grdm.getNUMBEROFJOKERS();
+		this.PlayerCardsMin = grdm.getPLAYERCARDSMIN();
+		this.PlayerCardsMax = grdm.getPLAYERCARDSMAX();
+		this.CommunityCardsMin = grdm.getCOMMUNITYCARDSMIN();
+		this.CommunityCardsMax = grdm.getCOMMUNITYCARDSMAX();
+		this.PossibleHandCombinations = grdm.getPOSSIBLEHANDCOMBINATIONS();
+		ArrayList<GameRuleCardsDomainModel> CardData = GameRuleCardsBLL.getCardsRules(RuleId);
+		ArrayList<Integer> CardsToDraw = new ArrayList<Integer>();
+		for (GameRuleCardsDomainModel g : CardData){
+			CardsToDraw.add(g.getNBROFCARDS());
+		}
+		this.iCardsToDraw = CardsToDraw;
+	}
 
-	public Rule(eGame gme) {
+	/*public Rule(eGame gme) {
 		this.Game = gme;
 		switch (gme) {
 		case FiveStud: {
@@ -150,12 +184,12 @@ public class Rule {
 			this.CommunityCardsMin = 0;
 			this.CommunityCardsMax = 0;
 			this.PossibleHandCombinations = 1;
-			int[] iCardsToDraw = {1,1,1,1,1};
+			int[] CardsToDraw = {1,1,1,1,1};
 			this.iCardsToDraw = iCardsToDraw;							
 			break;
 		}
 		}
-	}
+	}*/
 
 	public int GetMaxNumberOfPlayers() {
 		return this.MaxNumberOfPlayers;
@@ -228,11 +262,11 @@ public class Rule {
 		PossibleHandCombinations = possibleHandCombinations;
 	}
 
-	public int[] getiCardsToDraw() {
+	public ArrayList<Integer> getiCardsToDraw() {
 		return iCardsToDraw;
 	}
 
-	public void setiCardsToDraw(int[] iCardsToDraw) {
+	public void setiCardsToDraw(ArrayList<Integer> iCardsToDraw) {
 		this.iCardsToDraw = iCardsToDraw;
 	}
 	

@@ -37,6 +37,8 @@ public class RootLayoutController implements Initializable {
 
 	// Reference to the main application
 	private MainApp mainApp;
+	
+	private int id = 0;
 
 	@FXML
 	private MenuBar mb;
@@ -101,20 +103,30 @@ public class RootLayoutController implements Initializable {
 		//ToggleGroup tg = new ToggleGroup();
 		
 		for (GameRuleDomainModel gr : GameRuleBLL.getRules()) {
-			
+			id = gr.getRULEID();
 			RadioMenuItem mi = new RadioMenuItem();
-			String strRuleName = gr.getRULENAME();
+			final String strRuleName = gr.getRULENAME();
 			mi.setToggleGroup(tglGames);
 			mi.setText(strRuleName);
+			//mi.setId(gr.getRULEID().toString());
+			
+			mi.setOnAction(new EventHandler<ActionEvent>(){
+				public void handle(ActionEvent e){
+					PokerTableController.setRle(new Rule(strRuleName)); 
+				}											
+			});
 			
 			if (gr.getDEFAULTGAME() == 1)
 			{
 				mi.setSelected(true);
 			}
 			m.getItems().add(mi);
+			
+			
 		}
 
 		mb.getMenus().add(0,m);
+		mnuGame = m;
 
 		// mb.getMenus().add(m);
 		// mainApp.rootController.getc
@@ -150,6 +162,15 @@ public class RootLayoutController implements Initializable {
 	 * @param mainApp
 	 */
 	public void setMainApp(MainApp mainApp) {
+		
+		/*for (MenuItem MI: mnuGame.getItems()){
+			MI.setOnAction(new EventHandler<ActionEvent>(){
+				public void handle(ActionEvent e){
+					Integer id = Integer.valueOf(MI.getId());
+					PokerTableController.setRle(new Rule(id));
+				}
+			});
+		}
 		Omaha.setToggleGroup(tglGames);
 		Texas.setToggleGroup(tglGames);
 		FCD.setToggleGroup(tglGames);
@@ -198,7 +219,7 @@ public class RootLayoutController implements Initializable {
 				System.out.println("two joker toggled");
 				PokerTableController.setRle(new Rule(eGame.FiveStudTwoJoker));
 			}
-		});
+		});*/
 
 		this.mainApp = mainApp;
 	}
